@@ -13,14 +13,15 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         D = new long[1001];
+
         D[1] = 1;
         D[2] = 2;
 
-        int N = Integer.parseInt(br.readLine());
-
-        for (int i = 3; i <= N; i++) {
+        for (int i = 3; i < D.length; i++) {
             D[i] = (D[i-1] + D[i-2]) % MOD;
         }
+
+        int N = Integer.parseInt(br.readLine());
 
         System.out.println(D[N]);
      }
