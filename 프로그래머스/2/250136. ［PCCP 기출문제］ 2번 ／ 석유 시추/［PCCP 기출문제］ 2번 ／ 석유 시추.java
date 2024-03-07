@@ -24,15 +24,14 @@ class Solution {
         }
 
         for(int i = 0; i < m; i++) {
-            Set<Integer> uniqueOilPockets = new HashSet<>();
+            Set<Integer> set = new HashSet<>();
             for (int j = 0; j < n; j++) {
-                if(land[j][i] > 0) uniqueOilPockets.add(land[j][i]);
+                if(land[j][i] > 0) set.add(land[j][i]);
             }
-
-            int sum = uniqueOilPockets.stream().mapToInt(id -> range.getOrDefault(id, 0)).sum();
+            //GPT 참고
+            int sum = set.stream().mapToInt(id -> range.getOrDefault(id, 0)).sum();
             answer = Math.max(answer, sum);
         }
-
         return answer;
     }
 
@@ -41,7 +40,7 @@ class Solution {
         visited[x][y] = true;
         land[x][y] = count;
         queue.offer(new int[]{x, y});
-        int oilPocketSize = 1; // 시작 지점을 포함하여 크기 1로 초기화
+        int Size = 1; // 시작 지점을 포함하여 크기 1로 초기화
 
         while(!queue.isEmpty()) {
             int[] now = queue.poll();
@@ -53,12 +52,12 @@ class Solution {
                         visited[nextX][nextY] = true;
                         land[nextX][nextY] = count; // 석유 덩어리의 번호 할당
                         queue.offer(new int[]{nextX, nextY});
-                        oilPocketSize++; // 석유 덩어리 크기 증가
+                        Size++; // 석유 덩어리 크기 증가
                     }
                 }
             }
         }
 
-        range.put(count, oilPocketSize); // 석유 덩어리 크기 정보 업데이트
+        range.put(count, Size); // 석유 덩어리 크기 정보 업데이트
     }
 }
