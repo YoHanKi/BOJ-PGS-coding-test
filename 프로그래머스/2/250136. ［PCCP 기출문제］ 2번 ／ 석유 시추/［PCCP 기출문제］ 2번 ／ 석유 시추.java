@@ -29,7 +29,7 @@ class Solution {
                 if(land[j][i] > 0) set.add(land[j][i]);
             }
             //GPT 참고
-            int sum = set.stream().mapToInt(id -> range.getOrDefault(id, 0)).sum();
+            int sum = set.stream().mapToInt(id -> range.get(id)).sum();
             answer = Math.max(answer, sum);
         }
         return answer;
@@ -60,7 +60,6 @@ class Solution {
                 }
             }
         }
-
         range.put(count, Size); // 석유 덩어리 크기 정보 업데이트
     }
 }
