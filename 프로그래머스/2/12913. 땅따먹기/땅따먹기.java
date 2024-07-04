@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     int solution(int[][] land) {
         int answer = 0;
@@ -17,8 +19,6 @@ class Solution {
             }
         }
         
-        for(int i = 0; i < 4; i++) answer = Math.max(answer, dp[0][i]);
-        
-        return answer;
+        return Arrays.stream(dp[0]).max().getAsInt();
     }
 }
