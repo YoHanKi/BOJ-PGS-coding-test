@@ -5,7 +5,9 @@ class Solution {
         int[] answer = new int[(int)(right-left+1)];
         
         for(int i = 0; i < answer.length; i++) {
-            answer[i] = (int)Math.max((left/n) + 1, (left+1) % n == 0 ? n : (left+1) % n);
+            long cal1 = (left/n) + 1;
+            long cal2 = (left+1) % n;
+            answer[i] = (int)Math.max(cal1, cal2 == 0 ? n : cal2);
             left++;
         }
         return answer;
