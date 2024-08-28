@@ -3,10 +3,9 @@ import java.util.*;
 class Solution {
     int[] dx = {0, 1, -1};
     int[] dy = {1, 0, -1};
-    int[][] tower;
     
     public int[] solution(int n) {
-        tower = new int[n][n];
+        int[][] tower = new int[n][n];
         
         int x = 0;
         int y = 0;
@@ -28,13 +27,6 @@ class Solution {
             }
         }
         
-        List<Integer> list = new ArrayList<>();
-        for(int[] to : tower) {
-            for(int t : to) {
-                if(t != 0) list.add(t);
-            }
-        }
-        
-        return list.stream().mapToInt(Integer::intValue).toArray();
+        return Arrays.stream(tower).flatMapToInt(Arrays::stream).filter(t -> t != 0).toArray();
     }
 }
