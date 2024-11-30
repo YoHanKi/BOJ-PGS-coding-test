@@ -1,26 +1,12 @@
-def search(lev):
-    global N, S, arr, choose, ans
-
-    # base case
-    if lev == N:
-        if choose and sum(choose) == S:
-            ans += 1
-        return
-
-    # 인덱스가 lev인 원소 선택 O
-    choose.append(arr[lev])
-    search(lev + 1)
-    choose.pop()
-
-    # 인덱스가 lev인 원소 선택 X
-    search(lev + 1)
-
+from itertools import combinations
 
 N, S = map(int, input().split())
 arr = list(map(int, input().split()))
-choose = []
-ans = 0
+cnt = 0
 
-search(0)
+for i in range(1, N + 1):
+    for comb in combinations(arr, i):
+        if sum(comb) == S:
+            cnt += 1
 
-print(ans)
+print(cnt)
