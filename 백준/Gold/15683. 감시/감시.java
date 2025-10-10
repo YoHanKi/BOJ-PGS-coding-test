@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int UNEMPTY = -1, EMPTY = 0, WALL = 6;
+        static int EMPTY = 0, WALL = 6;
     static int[] dx = {0, 1, 0, -1};
     static int[] dy = {-1, 0, 1, 0};
     static int MIN = Integer.MAX_VALUE;
@@ -48,70 +48,62 @@ public class Main {
         int currentCCTV = office[x][y];
         if (currentCCTV == 1) {
             for (int i = 0; i < 4; i++) {
-                int[][] copy = copyOf(office);
-                watch(office, x, y, i);
+                watch(office, x, y, i, index, false);
                 DFS(office, index + 1);
-                office = copy;
+                watch(office, x, y, i, index, true);
             }
         } else if (currentCCTV == 2) {
             for (int i = 0; i < 2; i++) {
-                int[][] copy = copyOf(office);
-                watch(office, x, y, i);
-                watch(office, x, y, i + 2);
+                watch(office, x, y, i, index, false);
+                watch(office, x, y, i + 2, index, false);
                 DFS(office, index + 1);
-                office = copy;
+                watch(office, x, y, i, index, true);
+                watch(office, x, y, i + 2, index, true);
             }
         } else if (currentCCTV == 3) {
             for (int i = 0; i < 4; i++) {
-                int[][] copy = copyOf(office);
-                watch(office, x, y, i);
-                watch(office, x, y, (i + 1) % 4);
+                watch(office, x, y, i, index, false);
+                watch(office, x, y, (i + 1) % 4, index, false);
                 DFS(office, index + 1);
-                office = copy;
+                watch(office, x, y, i, index, true);
+                watch(office, x, y, (i + 1) % 4, index, true);
             }
         } else if (currentCCTV == 4) {
             for (int i = 0; i < 4; i++) {
-                int[][] copy = copyOf(office);
-                watch(office, x, y, i);
-                watch(office, x, y, (i + 1) % 4);
-                watch(office, x, y, (i + 2) % 4);
+                watch(office, x, y, i, index, false);
+                watch(office, x, y, (i + 1) % 4, index, false);
+                watch(office, x, y, (i + 2) % 4, index, false);
                 DFS(office, index + 1);
-                office = copy;
+                watch(office, x, y, i, index, true);
+                watch(office, x, y, (i + 1) % 4, index, true);
+                watch(office, x, y, (i + 2) % 4, index, true);
             }
         } else if (currentCCTV == 5) {
-            int[][] copy = copyOf(office);
             for (int i = 0; i < 4; i++) {
-                watch(office, x, y, i);
+                watch(office, x, y, i, index, false);
             }
             DFS(office, index + 1);
-            office = copy;
+            for (int i = 0; i < 4; i++) {
+                watch(office, x, y, i, index, true);
+            }
         }
     }
 
-    public static void watch(int[][] office, int x, int y, int direction) {
+    public static void watch(int[][] office, int x, int y, int direction, int index, boolean undo) {
         int N = office.length;
         int M = office[0].length;
         int nx = x;
         int ny = y;
+        index += 10;
         while (true) {
             nx += dx[direction];
             ny += dy[direction];
             if (nx < 0 || nx >= N || ny < 0 || ny >= M || office[nx][ny] == WALL) break;
-            if (office[nx][ny] == (EMPTY)) {
-                office[nx][ny] = UNEMPTY;
+            if (undo && office[nx][ny] >= 10) {
+                office[nx][ny] -= index;
+            } else if (office[nx][ny] == EMPTY || office[nx][ny] >= 10) {
+                office[nx][ny] += index;
             }
         }
-    }
-
-    public static int[][] copyOf(int[][] office) {
-        int N = office.length;
-        int M = office[0].length;
-        int[][] copy = new int[N][M];
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                copy[i][j] = office[i][j];
-            }
-        }
-        return copy;
     }
 }
